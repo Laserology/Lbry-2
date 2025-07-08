@@ -13,7 +13,6 @@ config_version=5
 config/name="Lbry-Gen2"
 run/main_scene="res://UI/Startup.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-run/low_processor_mode=true
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
 boot_splash/show_image=false
 boot_splash/fullsize=false

@@ -1,15 +1,15 @@
 extends Control
 
-func _ready():
+func _ready() -> void:
 	# Load projects into main view.
 	LoadProjects()
-	get_window().size = Vector2i(1280, 720)
-	get_window().borderless = false
-	get_window().move_to_center()
+	print("[main]: Loaded " + str(%ProjectList.item_count) + " projects from '" + Storage.SavePath + "'.")
 
-func SortProjects(Query: String, SortBy: Constants.SearchBy):
+func SortProjects(Query: String, SortBy: Constants.SearchBy) -> void:
 	%ProjectList.clear()
 	Query = Query.to_lower()
+
+	print("[main] Sorting project list by " + str(SortBy))
 
 	match SortBy:
 		Constants.SearchBy.Title:
@@ -31,14 +31,14 @@ func SortProjects(Query: String, SortBy: Constants.SearchBy):
 				if Storage.DB.get_value(N, Constants.CARD_NUMBER, "").contains(Query):
 					%ProjectList.add_item(N)
 
+func ListItemselected(Index: int) -> void:
+	%ProjectList.deselect_all()
+	%ProjectDetails.Load(%ProjectList.get_item_text(Index))
+
 func LoadProjects() -> void:
 	%ProjectList.clear()
 	for I in Storage.GetProjectNames():
 		%ProjectList.add_item(I)
-
-func ListItemselected(Index: int) -> void:
-	%ProjectList.deselect_all()
-	%ProjectDetails.Load(%ProjectList.get_item_text(Index))
 
 func SearchClicked() -> void:
 	%SearchButton.hide()
@@ -49,3 +49,7 @@ func ClearPressed() -> void:
 	%SearchButton.show()
 	%ClearButton.hide()
 	LoadProjects()
+
+func _exit_tree() -> void:
+	print("[main]: Tree is exiting...")
+	Storage.Unlock()

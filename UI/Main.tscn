@@ -1,33 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://b86yo2tp58162"]
+[gd_scene load_steps=9 format=3 uid="uid://b86yo2tp58162"]
 
 [ext_resource type="Script" uid="uid://dws03tpiyfevr" path="res://Scripts/Main.gd" id="1_edq8m"]
 [ext_resource type="Theme" uid="uid://b0tmnq5iqqibt" path="res://Assets/InputCommon.tres" id="3_crsyg"]
+[ext_resource type="Theme" uid="uid://nrcq1sdpd77o" path="res://Assets/ButtonAccept.tres" id="3_r7jo0"]
 [ext_resource type="Script" uid="uid://dj3r83ajuowm5" path="res://Scripts/ProjectDetails.gd" id="3_ukeqo"]
+[ext_resource type="Theme" uid="uid://7x44o681q4pk" path="res://Assets/ButtonReject.tres" id="5_r7jo0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_edq8m"]
 font_size = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crsyg"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0, 0.422627, 0.163912, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukeqo"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0, 0.442352, 0.124086, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
 
 [sub_resource type="InputEventKey" id="InputEventKey_ukeqo"]
 device = -1
@@ -35,17 +15,6 @@ keycode = 4194305
 
 [sub_resource type="Shortcut" id="Shortcut_crsyg"]
 events = [SubResource("InputEventKey_ukeqo")]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7jo0"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.476463, 0, 0.104674, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -57,7 +26,7 @@ size_flags_vertical = 3
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
-color = Color(0.201527, 0.201527, 0.201527, 1)
+color = Color(0.125911, 0.125911, 0.125911, 1)
 script = ExtResource("1_edq8m")
 
 [node name="ProjectListGrid" type="GridContainer" parent="Main"]
@@ -73,6 +42,7 @@ offset_right = 320.0
 offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/v_separation = 16
 
 [node name="ScreenTitle" type="Label" parent="Main/ProjectListGrid"]
 layout_mode = 2
@@ -89,6 +59,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../SortMode")
 theme = ExtResource("3_crsyg")
+placeholder_text = "Type search query..."
 
 [node name="SortMode" type="OptionButton" parent="Main/ProjectListGrid/SearchGrid"]
 unique_name_in_owner = true
@@ -128,13 +99,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 0
+theme = ExtResource("3_crsyg")
 
-[node name="Button" type="Button" parent="Main/ProjectListGrid"]
+[node name="NewProject" type="Button" parent="Main/ProjectListGrid"]
 layout_mode = 2
 focus_mode = 0
-theme = ExtResource("3_crsyg")
-theme_override_styles/normal = SubResource("StyleBoxFlat_crsyg")
+theme = ExtResource("3_r7jo0")
 text = "+ New Project"
+expand_icon = true
 
 [node name="ProjectDetails" type="ColorRect" parent="Main"]
 unique_name_in_owner = true
@@ -142,7 +114,7 @@ layout_mode = 0
 offset_left = 1280.0
 offset_right = 2560.0
 offset_bottom = 720.0
-color = Color(0.2, 0.2, 0.2, 1)
+color = Color(0.12549, 0.12549, 0.12549, 1)
 script = ExtResource("3_ukeqo")
 
 [node name="Halfs" type="GridContainer" parent="Main/ProjectDetails"]
@@ -291,8 +263,7 @@ size_flags_vertical = 3
 focus_neighbor_top = NodePath("../../../ApprovedBy")
 focus_neighbor_right = NodePath("../Delete")
 focus_mode = 0
-theme = ExtResource("3_crsyg")
-theme_override_styles/normal = SubResource("StyleBoxFlat_ukeqo")
+theme = ExtResource("3_r7jo0")
 shortcut = SubResource("Shortcut_crsyg")
 text = "Save & Close"
 
@@ -304,9 +275,13 @@ size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Save")
 focus_neighbor_right = NodePath("../../../Notes")
 focus_mode = 0
-theme = ExtResource("3_crsyg")
-theme_override_styles/normal = SubResource("StyleBoxFlat_r7jo0")
+theme = ExtResource("5_r7jo0")
 text = "Delete"
+
+[node name="Details" type="GridContainer" parent="Main/ProjectDetails/Halfs"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Margins" type="MarginContainer" parent="Main"]
 layout_mode = 1
@@ -332,7 +307,8 @@ uri = "https://github.com/Laserology/lbry-2/"
 [connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/SearchButton" to="Main" method="SearchClicked"]
 [connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/ClearButton" to="Main" method="ClearPressed"]
 [connection signal="item_selected" from="Main/ProjectListGrid/ProjectList" to="Main" method="ListItemselected"]
-[connection signal="pressed" from="Main/ProjectListGrid/Button" to="Main/ProjectDetails" method="NewProject"]
+[connection signal="pressed" from="Main/ProjectListGrid/NewProject" to="Main/ProjectDetails" method="NewProject"]
 [connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/GridContainer/Button" to="Main/ProjectDetails" method="OpenProjectPage"]
+[connection signal="editing_toggled" from="Main/ProjectDetails/Halfs/Inputs/CardNumber" to="Main/ProjectDetails" method="EditingToggled"]
 [connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons/Save" to="Main/ProjectDetails" method="ProjectDetailsClose"]
 [connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons/Delete" to="Main/ProjectDetails" method="DeletePressed"]

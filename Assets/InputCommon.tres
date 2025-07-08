@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://b0tmnq5iqqibt"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://b0tmnq5iqqibt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2mm6"]
 content_margin_left = 16.0
@@ -32,6 +32,18 @@ corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owg0y"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.396078, 0.396078, 0.396078, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 20
 
 [sub_resource type="SystemFont" id="SystemFont_0duk0"]
 font_names = PackedStringArray("Noto Sans")
@@ -76,6 +88,8 @@ corner_detail = 20
 Button/styles/hover = SubResource("StyleBoxFlat_p2mm6")
 Button/styles/normal = SubResource("StyleBoxFlat_ngano")
 Button/styles/pressed = SubResource("StyleBoxFlat_vj3qd")
+ItemList/colors/font_color = Color(1, 1, 1, 1)
+ItemList/styles/panel = SubResource("StyleBoxFlat_owg0y")
 LineEdit/colors/selection_color = Color(0, 0.502744, 0.902508, 1)
 LineEdit/fonts/font = SubResource("SystemFont_0duk0")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_6hfkp")

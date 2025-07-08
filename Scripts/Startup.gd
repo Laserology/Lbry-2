@@ -6,17 +6,18 @@ func _ready():
 	Animate.AnimProgress(get_tree(), %ProgressBar).connect(PreLoad)
 
 func PreLoad() -> void:
-	# Warn about & Unlock the database.
-	if Storage.IsLocked():
-		Dialog.ShowMessagePopup("Alert", "This database is either already open in another window, or the database is incorrect. You can re-open the program again to fix it, but it is not recommended.", "Close").popup_centered()
-		Storage.Close()
-		get_tree().quit()
+	# Set up global scope for dialogs.
+	Constants.GlobalRoot = get_tree().root
 
-	# Load the database into memory.
 	Storage.OpenDatabase()
+
+	get_window().size = Vector2i(1280, 720)
+	get_window().borderless = false
+	get_window().move_to_center()
 
 	# Switch to the main screen.
 	get_tree().change_scene_to_file("res://UI/Main.tscn")
 
 func _exit_tree() -> void:
-	Storage.Close()
+	print("[startup]: Tree is exiting...")
+	Storage.Unlock()

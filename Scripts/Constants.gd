@@ -1,6 +1,8 @@
 class_name Constants
 extends Node
 
+static var GlobalRoot: Node
+
 # Special reserved section not to use.
 const RESERVED_SECTION = "LOADER_CONFIG_SECTION_DO_NOT_USE"
 const LOCK_CONST = "SOFTWARE_SECONDARY_OPEN_LOCK"

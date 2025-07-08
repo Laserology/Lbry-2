@@ -1,35 +1,32 @@
 extends ColorRect
 
+# To-Do: Mark "was modified" if any fields changed (use signals).
+
 # Used to detect name changes.
 var OriginalSelection: String = ""
 var ConfirmDelete: bool = false
+var IsNewProject: bool = false
 
-# Load a project into the project menu.
-func Load(Project: String):
-	OriginalSelection = Project
-	%ProjectName.text = Project
-	%Cardholder.text = Storage.DB.get_value(Project, Constants.CARD_HOLDER, "")
-	%ProjectID.text = Storage.DB.get_value(Project, Constants.PROJECT_ID, "")
-	%Platform.select(Storage.DB.get_value(Project, Constants.PROJECT_SOURCE, 0))
-	%CardNumber.text = Storage.DB.get_value(Project, Constants.CARD_NUMBER, "")
-	%ProjectColor.text = Storage.DB.get_value(Project, Constants.PROJECT_COLOR, "")
-	%ApprovedBy.text = Storage.DB.get_value(Project, Constants.SIGNATURE, "")
-	%Notes.text = Storage.DB.get_value(Project, Constants.PROJECT_NOTES, "")
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
+# Find the number of days since a particular library card was used.
+func DaysSinceUsed(CardNumber: String) -> int:
+	var Oldest: int = 0
+	for N in Storage.GetProjectNames():
+		if N == CardNumber:
+			var CardUse: int = Storage.DB.get_value(N, Constants.LAST_UPDATED, Time.get_unix_time_from_system())
+			Oldest = max(CardUse, Oldest)
 
-# Clears all fields in the project view.
-func Clear():
-	%ProjectName.clear()
-	%Cardholder.clear()
-	%ProjectID.clear()
-	%Platform.select(0)
-	%CardNumber.clear()
-	%ProjectColor.clear()
-	%ApprovedBy.clear()
-	%Notes.clear()
+	return Time.get_datetime_dict_from_unix_time(Time.get_unix_time_from_system() - Oldest)["day"] - 1.0
+
+# Warn if a library card was used more than once in a month.
+func EditingToggled(Toggled: bool) -> void:
+	if !Toggled:
+		var DaysAgo: int = DaysSinceUsed(%CardNumber.text)
+		if DaysAgo != 0 && DaysAgo <= 28 && !%CardNumber.text.is_empty():
+			Dialog.ShowMessagePopup("Alert", "This library card was used " + str(DaysAgo) + " day(s) ago!")
+			print("[details] Card last use detected: " + str(DaysAgo))
 
 # Runs when the "Save & Close" button is pressed.
-func ProjectDetailsClose():
+func ProjectDetailsClose() -> void:
 	# Save new values to storage.
 	if !%ProjectName.text.is_empty():
 		# Delete old entry if it was renamed.
@@ -44,6 +41,9 @@ func ProjectDetailsClose():
 		Storage.DB.set_value(%ProjectName.text, Constants.SIGNATURE, %ApprovedBy.text)
 		Storage.DB.set_value(%ProjectName.text, Constants.PROJECT_NOTES, %Notes.text)
 
+		if IsNewProject:
+			Storage.DB.set_value(%ProjectName.text, Constants.LAST_UPDATED, Time.get_unix_time_from_system())
+
 		# Save new details & Reload main menu.
 		Storage.Reload()
 
@@ -52,12 +52,29 @@ func ProjectDetailsClose():
 	for I in Storage.GetProjectNames():
 		%ProjectList.add_item(I)
 
+	if %CardNumber.text.is_empty():
+		Dialog.ShowMessagePopup("Alert", "You didn't enter any library card number!")
+
 	# Slide back to the main menu.
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(1280, 0), 0.5)
+	Close()
+
+# Load a project into the project menu.
+func Load(Project: String) -> void:
+	OriginalSelection = Project
+	%ProjectName.text = Project
+	%Cardholder.text = Storage.DB.get_value(Project, Constants.CARD_HOLDER, "")
+	%ProjectID.text = Storage.DB.get_value(Project, Constants.PROJECT_ID, "")
+	%Platform.select(Storage.DB.get_value(Project, Constants.PROJECT_SOURCE, 0))
+	%CardNumber.text = Storage.DB.get_value(Project, Constants.CARD_NUMBER, "")
+	%ProjectColor.text = Storage.DB.get_value(Project, Constants.PROJECT_COLOR, "")
+	%ApprovedBy.text = Storage.DB.get_value(Project, Constants.SIGNATURE, "")
+	%Notes.text = Storage.DB.get_value(Project, Constants.PROJECT_NOTES, "")
+	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
 
 # Ask user to confirm deletion.
 func DeletePressed() -> void:
 	if ConfirmDelete:
+		print("[main]: Removing " + %ProjectName.text + "...")
 		Storage.DB.erase_section(%ProjectName.text)
 		Storage.DB.save(Storage.SavePath)
 
@@ -65,19 +82,15 @@ func DeletePressed() -> void:
 		%ProjectList.clear()
 		for I in Storage.GetProjectNames():
 			%ProjectList.add_item(I)
-		%Delete.text = "Delete"
-
-		# Slide back to the main menu.
-		Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(1280, 0), 0.5)
-
-		ConfirmDelete = false
+		Close()
 	else:
 		%Delete.text = "Press again to confirm"
 		ConfirmDelete = true
 
 # Runs when the "New Project" button is pressed.
 func NewProject():
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
+	IsNewProject = true;
+	Open()
 	Clear()
 	%ProjectName.text = "New Project - " + Time.get_datetime_string_from_system()
 
@@ -87,3 +100,27 @@ func OpenProjectPage() -> void:
 		0: OS.shell_open("https://www.thingiverse.com/thing:%s/files" % str(%ProjectID.text))
 		1: OS.shell_open("https://www.printables.com/model/%s/files" % str(%ProjectID.text))
 		2: OS.shell_open(OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + %ProjectID.text)
+
+# Open project menu animation.
+func Open() -> void:
+	# Slide to the project menu.
+	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
+
+# Close project menu animation.
+func Close() -> void:
+	# Slide back to the main menu.
+	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(1280, 0), 0.5)
+	%Delete.text = "Delete"
+	ConfirmDelete = false
+	IsNewProject = false
+
+# Clears all fields in the project view.
+func Clear() -> void:
+	%ProjectName.clear()
+	%Cardholder.clear()
+	%ProjectID.clear()
+	%Platform.select(0)
+	%CardNumber.clear()
+	%ProjectColor.clear()
+	%ApprovedBy.clear()
+	%Notes.clear()
