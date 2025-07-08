@@ -1,13 +1,11 @@
 extends Control
 
 func _ready():
-	get_window().size = Vector2i(1280, 720)
-	get_window().borderless = false
-	get_window().unresizable = true
-	get_window().move_to_center()
-
 	# Load projects into main view.
 	LoadProjects()
+	get_window().size = Vector2i(1280, 720)
+	get_window().borderless = false
+	get_window().move_to_center()
 
 func SortProjects(Query: String, SortBy: Constants.SearchBy):
 	%ProjectList.clear()
