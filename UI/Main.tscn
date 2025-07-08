@@ -260,19 +260,34 @@ focus_neighbor_top = NodePath("../ProjectColor")
 focus_neighbor_bottom = NodePath("../MarginContainer/Buttons/Save")
 theme = ExtResource("3_crsyg")
 
-[node name="MarginContainer" type="MarginContainer" parent="Main/ProjectDetails/Halfs/Inputs"]
+[node name="Label8" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Extra Notes"
+
+[node name="Notes" type="TextEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../MarginContainer/Buttons/Delete")
+theme = ExtResource("3_crsyg")
+placeholder_text = "(Optional)"
+
+[node name="MarginContainer" type="MarginContainer" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="Buttons" type="GridContainer" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_constants/h_separation = 16
 columns = 2
 
 [node name="Save" type="Button" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 focus_neighbor_top = NodePath("../../../ApprovedBy")
 focus_neighbor_right = NodePath("../Delete")
 focus_mode = 0
@@ -284,30 +299,14 @@ text = "Save & Close"
 [node name="Delete" type="Button" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Save")
-focus_neighbor_right = NodePath("../../../../GridContainer/Notes")
+focus_neighbor_right = NodePath("../../../Notes")
 focus_mode = 0
 theme = ExtResource("3_crsyg")
 theme_override_styles/normal = SubResource("StyleBoxFlat_r7jo0")
 text = "Delete"
-
-[node name="GridContainer" type="GridContainer" parent="Main/ProjectDetails/Halfs"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label8" type="Label" parent="Main/ProjectDetails/Halfs/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Extra Notes"
-
-[node name="Notes" type="TextEdit" parent="Main/ProjectDetails/Halfs/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../Inputs/MarginContainer/Buttons/Delete")
-theme = ExtResource("3_crsyg")
-placeholder_text = "(Optional)"
 
 [node name="Margins" type="MarginContainer" parent="Main"]
 layout_mode = 1
