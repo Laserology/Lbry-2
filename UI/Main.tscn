@@ -1,0 +1,339 @@
+[gd_scene load_steps=10 format=3 uid="uid://b86yo2tp58162"]
+
+[ext_resource type="Script" uid="uid://dws03tpiyfevr" path="res://Scripts/Main.gd" id="1_edq8m"]
+[ext_resource type="Theme" uid="uid://b0tmnq5iqqibt" path="res://Assets/InputCommon.tres" id="3_crsyg"]
+[ext_resource type="Script" uid="uid://dj3r83ajuowm5" path="res://Scripts/ProjectDetails.gd" id="3_ukeqo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_edq8m"]
+font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crsyg"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0.422627, 0.163912, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukeqo"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0.442352, 0.124086, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="InputEventKey" id="InputEventKey_ukeqo"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_crsyg"]
+events = [SubResource("InputEventKey_ukeqo")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7jo0"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.476463, 0, 0.104674, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Main" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.201527, 0.201527, 0.201527, 1)
+script = ExtResource("1_edq8m")
+
+[node name="ProjectListGrid" type="GridContainer" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -256.0
+offset_right = 320.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScreenTitle" type="Label" parent="Main/ProjectListGrid"]
+layout_mode = 2
+text = "Projects"
+label_settings = SubResource("LabelSettings_edq8m")
+
+[node name="SearchGrid" type="GridContainer" parent="Main/ProjectListGrid"]
+layout_mode = 2
+columns = 3
+
+[node name="SearchBox" type="LineEdit" parent="Main/ProjectListGrid/SearchGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../SortMode")
+theme = ExtResource("3_crsyg")
+
+[node name="SortMode" type="OptionButton" parent="Main/ProjectListGrid/SearchGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../SearchBox")
+focus_neighbor_right = NodePath("../SearchButton")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+selected = 0
+item_count = 3
+popup/item_0/text = "Find: Title"
+popup/item_0/id = 0
+popup/item_1/text = "Find: Details"
+popup/item_1/id = 1
+popup/item_2/text = "Find: Card #"
+popup/item_2/id = 2
+
+[node name="SearchButton" type="Button" parent="Main/ProjectListGrid/SearchGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../SortMode")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+text = "Search
+"
+
+[node name="ClearButton" type="Button" parent="Main/ProjectListGrid/SearchGrid"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme = ExtResource("3_crsyg")
+text = "clear"
+
+[node name="ProjectList" type="ItemList" parent="Main/ProjectListGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+
+[node name="Button" type="Button" parent="Main/ProjectListGrid"]
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_crsyg")
+text = "+ New Project"
+
+[node name="ProjectDetails" type="ColorRect" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1280.0
+offset_right = 2560.0
+offset_bottom = 720.0
+color = Color(0.2, 0.2, 0.2, 1)
+script = ExtResource("3_ukeqo")
+
+[node name="Halfs" type="GridContainer" parent="Main/ProjectDetails"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 1276.0
+offset_bottom = 716.0
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="Inputs" type="GridContainer" parent="Main/ProjectDetails/Halfs"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Project Name"
+
+[node name="ProjectName" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath("../Cardholder")
+theme = ExtResource("3_crsyg")
+
+[node name="Label2" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Cardholder Name"
+
+[node name="Cardholder" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../ProjectName")
+focus_neighbor_bottom = NodePath("../ProjectID")
+theme = ExtResource("3_crsyg")
+
+[node name="Label3" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "Project ID"
+
+[node name="ProjectID" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../Cardholder")
+focus_neighbor_bottom = NodePath("../GridContainer/Platform")
+theme = ExtResource("3_crsyg")
+placeholder_text = "(Optional)"
+
+[node name="Label4" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Project Platform"
+
+[node name="GridContainer" type="GridContainer" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+columns = 2
+
+[node name="Platform" type="OptionButton" parent="Main/ProjectDetails/Halfs/Inputs/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../../ProjectID")
+focus_neighbor_right = NodePath("../Button")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+selected = 0
+item_count = 3
+popup/item_0/text = "Thingiverse"
+popup/item_0/id = 0
+popup/item_1/text = "Printables"
+popup/item_1/id = 1
+popup/item_2/text = "Custom"
+popup/item_2/id = 2
+
+[node name="Button" type="Button" parent="Main/ProjectDetails/Halfs/Inputs/GridContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Platform")
+focus_neighbor_bottom = NodePath("../../CardNumber")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+text = "Open"
+
+[node name="Label5" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Library Card Number"
+
+[node name="CardNumber" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../GridContainer/Button")
+focus_neighbor_bottom = NodePath("../ProjectColor")
+theme = ExtResource("3_crsyg")
+
+[node name="Label6" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Project Color"
+
+[node name="ProjectColor" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../CardNumber")
+focus_neighbor_bottom = NodePath("../ApprovedBy")
+theme = ExtResource("3_crsyg")
+
+[node name="Label7" type="Label" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+text = "* Approved By"
+
+[node name="ApprovedBy" type="LineEdit" parent="Main/ProjectDetails/Halfs/Inputs"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../ProjectColor")
+focus_neighbor_bottom = NodePath("../MarginContainer/Buttons/Save")
+theme = ExtResource("3_crsyg")
+
+[node name="MarginContainer" type="MarginContainer" parent="Main/ProjectDetails/Halfs/Inputs"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Buttons" type="GridContainer" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Save" type="Button" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../ApprovedBy")
+focus_neighbor_right = NodePath("../Delete")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ukeqo")
+shortcut = SubResource("Shortcut_crsyg")
+text = "Save & Close"
+
+[node name="Delete" type="Button" parent="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../Save")
+focus_neighbor_right = NodePath("../../../../GridContainer/Notes")
+focus_mode = 0
+theme = ExtResource("3_crsyg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_r7jo0")
+text = "Delete"
+
+[node name="GridContainer" type="GridContainer" parent="Main/ProjectDetails/Halfs"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label8" type="Label" parent="Main/ProjectDetails/Halfs/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Extra Notes"
+
+[node name="Notes" type="TextEdit" parent="Main/ProjectDetails/Halfs/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_left = NodePath("../../Inputs/MarginContainer/Buttons/Delete")
+theme = ExtResource("3_crsyg")
+placeholder_text = "(Optional)"
+
+[node name="Margins" type="MarginContainer" parent="Main"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -97.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="LinkButton" type="LinkButton" parent="Main/Margins"]
+layout_mode = 2
+text = "Source Code"
+uri = "https://github.com/Laserology/lbry-2/"
+
+[connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/SearchButton" to="Main" method="SearchClicked"]
+[connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/ClearButton" to="Main" method="ClearPressed"]
+[connection signal="item_selected" from="Main/ProjectListGrid/ProjectList" to="Main" method="ListItemselected"]
+[connection signal="pressed" from="Main/ProjectListGrid/Button" to="Main/ProjectDetails" method="NewProject"]
+[connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/GridContainer/Button" to="Main/ProjectDetails" method="OpenProjectPage"]
+[connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons/Save" to="Main/ProjectDetails" method="ProjectDetailsClose"]
+[connection signal="pressed" from="Main/ProjectDetails/Halfs/Inputs/MarginContainer/Buttons/Delete" to="Main/ProjectDetails" method="DeletePressed"]
