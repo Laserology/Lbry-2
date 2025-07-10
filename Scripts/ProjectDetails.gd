@@ -75,7 +75,7 @@ func Load(Project: String) -> void:
 	%ProjectColor.text = Storage.DB.get_value(Project, Constants.PROJECT_COLOR, "")
 	%ApprovedBy.text = Storage.DB.get_value(Project, Constants.SIGNATURE, "")
 	%Notes.text = Storage.DB.get_value(Project, Constants.PROJECT_NOTES, "")
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
+	Animate.SlideTo(%ProjectDetails, Vector2(0, 0), 0.5)
 
 # Ask user to confirm deletion.
 func DeletePressed() -> void:
@@ -110,12 +110,12 @@ func OpenProjectPage() -> void:
 # Open project menu animation.
 func Open() -> void:
 	# Slide to the project menu.
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(0, 0), 0.5)
+	Animate.SlideTo(%ProjectDetails, Vector2(0, 0), 0.5)
 
 # Close project menu animation.
 func Close() -> void:
 	# Slide back to the main menu.
-	Animate.SlideTo(get_tree(), %ProjectDetails, Vector2(1280, 0), 0.5)
+	Animate.SlideTo(%ProjectDetails, Vector2(1280, 0), 0.5)
 	%Delete.text = "Delete"
 	ConfirmDelete = false
 	IsNewProject = false

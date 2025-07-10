@@ -1,14 +1,14 @@
 extends TextureRect
 
 func _ready():
-	# Fade-in startup screen.
-	Animate.FadeIn(get_tree(), self)
-	Animate.AnimProgress(get_tree(), %ProgressBar).connect(PreLoad)
-
-func PreLoad() -> void:
 	# Set up global scope for dialogs.
 	Constants.GlobalRoot = get_tree().root
 
+	# Fade-in startup screen.
+	Animate.FadeIn(self)
+	Animate.AnimProgress(%ProgressBar).connect(PreLoad)
+
+func PreLoad() -> void:
 	Storage.OpenDatabase()
 
 	get_window().size = Vector2i(1280, 720)
