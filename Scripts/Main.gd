@@ -32,8 +32,9 @@ func SortProjects(Query: String, SortBy: Constants.SearchBy) -> void:
 					%ProjectList.add_item(N)
 
 func ListItemselected(Index: int) -> void:
-	%ProjectList.deselect_all()
 	%ProjectDetails.Load(%ProjectList.get_item_text(Index))
+	%ProjectList.deselect_all()
+	ClearPressed()
 
 func LoadProjects() -> void:
 	%ProjectList.clear()
@@ -48,6 +49,7 @@ func SearchClicked() -> void:
 func ClearPressed() -> void:
 	%SearchButton.show()
 	%ClearButton.hide()
+	%SearchBox.clear()
 	LoadProjects()
 
 func _exit_tree() -> void:

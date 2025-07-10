@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cs0osnec4lbaq"]
+[gd_scene load_steps=11 format=3 uid="uid://cs0osnec4lbaq"]
 
 [ext_resource type="Texture2D" uid="uid://duyx711071x2g" path="res://Assets/lowpoly.png" id="1_2j4aa"]
 [ext_resource type="Script" uid="uid://dwp5jbag5qkow" path="res://Scripts/Startup.gd" id="2_mtvxg"]
@@ -22,6 +22,13 @@ font_names = PackedStringArray("LT Saeada")
 [sub_resource type="LabelSettings" id="LabelSettings_mqn0a"]
 font = SubResource("SystemFont_n0dmk")
 font_color = Color(0.61339, 0.61339, 0.61339, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_akxpq"]
+font_names = PackedStringArray("LT Saeada")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mtvxg"]
+font = SubResource("SystemFont_akxpq")
+font_color = Color(0.513233, 0.513233, 0.513233, 1)
 
 [node name="Artwork" type="TextureRect"]
 anchors_preset = 8
@@ -82,13 +89,35 @@ size_flags_vertical = 3
 
 [node name="Branding" type="Label" parent="Panel/LeftGrid/Centering/GridContainer"]
 layout_mode = 2
-text = "Lbry V2"
+text = "Lbry"
 label_settings = SubResource("LabelSettings_c3pul")
 
 [node name="LoadingText" type="Label" parent="Panel/LeftGrid/Centering/GridContainer"]
 layout_mode = 2
 text = "Loading Database..."
 label_settings = SubResource("LabelSettings_mqn0a")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -39.0
+offset_right = 400.0
+offset_bottom = -6.0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Versioning" type="Label" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Version 25.07"
+label_settings = SubResource("LabelSettings_mtvxg")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true

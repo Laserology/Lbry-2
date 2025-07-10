@@ -11,19 +11,25 @@ var IsNewProject: bool = false
 func DaysSinceUsed(CardNumber: String) -> int:
 	var Oldest: int = 0
 	for N in Storage.GetProjectNames():
-		if N == CardNumber:
-			var CardUse: int = Storage.DB.get_value(N, Constants.LAST_UPDATED, Time.get_unix_time_from_system())
+		if Storage.DB.get_value(N, Constants.CARD_NUMBER, "") == CardNumber:
+			var CardUse: int = Storage.DB.get_value(N, Constants.LAST_UPDATED, 0)
 			Oldest = max(CardUse, Oldest)
 
-	return Time.get_datetime_dict_from_unix_time(Time.get_unix_time_from_system() - Oldest)["day"] - 1.0
+	# If no last-date was found, set it to today.
+	if Oldest == 0:
+		Oldest = Time.get_unix_time_from_system()
+
+	# The number '86400' is the number of seconds in a day.
+	# We divide by it becsue unix time stamp is in seconds since epoch.
+	return (Time.get_unix_time_from_system() - Oldest) / 86400.0
 
 # Warn if a library card was used more than once in a month.
 func EditingToggled(Toggled: bool) -> void:
 	if !Toggled:
 		var DaysAgo: int = DaysSinceUsed(%CardNumber.text)
+		print("[details] Card last use detected: " + str(DaysAgo))
 		if DaysAgo != 0 && DaysAgo <= 28 && !%CardNumber.text.is_empty():
 			Dialog.ShowMessagePopup("Alert", "This library card was used " + str(DaysAgo) + " day(s) ago!")
-			print("[details] Card last use detected: " + str(DaysAgo))
 
 # Runs when the "Save & Close" button is pressed.
 func ProjectDetailsClose() -> void:
@@ -74,7 +80,7 @@ func Load(Project: String) -> void:
 # Ask user to confirm deletion.
 func DeletePressed() -> void:
 	if ConfirmDelete:
-		print("[main]: Removing " + %ProjectName.text + "...")
+		print("[main]: Removing '" + %ProjectName.text + "'...")
 		Storage.DB.erase_section(%ProjectName.text)
 		Storage.DB.save(Storage.SavePath)
 
