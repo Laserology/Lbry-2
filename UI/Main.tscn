@@ -16,13 +16,13 @@ keycode = 4194305
 [sub_resource type="Shortcut" id="Shortcut_crsyg"]
 events = [SubResource("InputEventKey_ukeqo")]
 
-[sub_resource type="LabelSettings" id="LabelSettings_r7jo0"]
-font_size = 24
-
 [sub_resource type="SystemFont" id="SystemFont_vgl0i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wxu0l"]
 font = SubResource("SystemFont_vgl0i")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_r7jo0"]
 font_size = 24
 
 [node name="Control" type="Control"]
@@ -325,6 +325,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="CenterContainer" type="CenterContainer" parent="ProjectDetails/Halfs/Details"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MoreSoon" type="Label" parent="ProjectDetails/Halfs/Details/CenterContainer"]
+layout_mode = 2
+text = "More features coming soon!"
+label_settings = SubResource("LabelSettings_wxu0l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Label" type="Label" parent="ProjectDetails/Halfs/Details"]
 visible = false
 layout_mode = 2
@@ -368,13 +380,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_crsyg")
 text = "Open File"
-
-[node name="Label2" type="Label" parent="ProjectDetails/Halfs/Details"]
-layout_mode = 2
-text = "More features coming soon."
-label_settings = SubResource("LabelSettings_wxu0l")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/SearchButton" to="Main" method="SearchClicked"]
 [connection signal="pressed" from="Main/ProjectListGrid/SearchGrid/ClearButton" to="Main" method="ClearPressed"]
