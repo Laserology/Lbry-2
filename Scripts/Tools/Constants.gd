@@ -6,6 +6,7 @@ static var GlobalRoot: Node
 # Special reserved section not to use.
 const RESERVED_SECTION = "LOADER_CONFIG_SECTION_DO_NOT_USE"
 const LOCK_CONST = "SOFTWARE_SECONDARY_OPEN_LOCK"
+const THEME_SETTING = "SOFTWARE_THEME_SETTING"
 
 # Common names for every listing.
 const CARD_HOLDER = "CardHolder"

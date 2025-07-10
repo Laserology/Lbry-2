@@ -1,11 +1,16 @@
 extends Control
 
 func _ready() -> void:
+	var ThemeIndex: int = Storage.DB.get_value(Constants.RESERVED_SECTION, Constants.THEME_SETTING, 0)
+	%ThemeSelector.ThemeSelected(ThemeIndex)
+	%ThemeSelector.select(ThemeIndex)
+
 	# Load projects into main view.
 	LoadProjects()
 	print("[main]: Loaded " + str(%ProjectList.item_count) + " projects from '" + Storage.SavePath + "'.")
 
 func SortProjects(Query: String, SortBy: Constants.SearchBy) -> void:
+	LoadProjects()
 	%ProjectList.clear()
 	Query = Query.to_lower()
 
@@ -42,6 +47,7 @@ func LoadProjects() -> void:
 		%ProjectList.add_item(I)
 
 func SearchClicked() -> void:
+	LoadProjects()
 	%SearchButton.hide()
 	%ClearButton.show()
 	SortProjects(%SearchBox.text, %SortMode.selected)
@@ -53,5 +59,6 @@ func ClearPressed() -> void:
 	LoadProjects()
 
 func _exit_tree() -> void:
+	%ProjectDetails.Close()
 	print("[main]: Tree is exiting...")
 	Storage.Unlock()

@@ -11,8 +11,8 @@ func _ready():
 func PreLoad() -> void:
 	Storage.OpenDatabase()
 
-	get_window().size = Vector2i(1280, 720)
 	get_window().borderless = false
+	get_window().size = Vector2i(1280, 720)
 	get_window().move_to_center()
 
 	# Switch to the main screen.

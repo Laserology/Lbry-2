@@ -34,6 +34,11 @@ func EditingToggled(Toggled: bool) -> void:
 # Runs when the "Save & Close" button is pressed.
 func ProjectDetailsClose() -> void:
 	# Save new values to storage.
+	for N in Storage.GetProjectNames():
+		if %ProjectName.text == N && IsNewProject:
+			Dialog.ShowMessagePopup("Warning", "A project with this name already exists!", "Cancel")
+			return
+
 	if !%ProjectName.text.is_empty():
 		# Delete old entry if it was renamed.
 		#if OriginalSelection != %ProjectName.text && !OriginalSelection.is_empty():
@@ -52,11 +57,6 @@ func ProjectDetailsClose() -> void:
 
 		# Save new details & Reload main menu.
 		Storage.Reload()
-
-	# Load projects into main view.
-	%ProjectList.clear()
-	for I in Storage.GetProjectNames():
-		%ProjectList.add_item(I)
 
 	if %CardNumber.text.is_empty():
 		Dialog.ShowMessagePopup("Alert", "You didn't enter any library card number!")
@@ -79,15 +79,14 @@ func Load(Project: String) -> void:
 
 # Ask user to confirm deletion.
 func DeletePressed() -> void:
+	if IsNewProject:
+		Close()
+		return
+
 	if ConfirmDelete:
 		print("[main]: Removing '" + %ProjectName.text + "'...")
 		Storage.DB.erase_section(%ProjectName.text)
 		Storage.DB.save(Storage.SavePath)
-
-		# Load projects into main view.
-		%ProjectList.clear()
-		for I in Storage.GetProjectNames():
-			%ProjectList.add_item(I)
 		Close()
 	else:
 		%Delete.text = "Press again to confirm"
@@ -111,6 +110,7 @@ func OpenProjectPage() -> void:
 func Open() -> void:
 	# Slide to the project menu.
 	Animate.SlideTo(%ProjectDetails, Vector2(0, 0), 0.5)
+	%Main.LoadProjects()
 
 # Close project menu animation.
 func Close() -> void:
@@ -119,6 +119,7 @@ func Close() -> void:
 	%Delete.text = "Delete"
 	ConfirmDelete = false
 	IsNewProject = false
+	%Main.LoadProjects()
 
 # Clears all fields in the project view.
 func Clear() -> void:

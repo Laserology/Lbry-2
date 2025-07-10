@@ -14,7 +14,6 @@ static func OpenDatabase() -> void:
 	# Warn about & Unlock the database.
 	if IsLocked():
 		Dialog.ShowMessagePopup("Alert", "This database is either already open in another window, or the database is incorrect.\nYou can continue to use the program, but it is not recommended.", "Dismiss")
-		Unlock()
 	else:
 		Lock()
 
@@ -41,10 +40,10 @@ static func Reload() -> void:
 # Unlock & Save the database - aka close.
 static func Unlock() -> void:
 	DB.erase_section_key(Constants.RESERVED_SECTION, Constants.LOCK_CONST)
-	DB.save(SavePath)
+	Reload()
 
 # Lock the database, which will trigger a warning if opened twice.
 static func Lock() -> void:
 	# Lock the software to prevent data issues.
 	DB.set_value(Constants.RESERVED_SECTION, Constants.LOCK_CONST, "LOCKED")
-	DB.save(SavePath)
+	Reload()
