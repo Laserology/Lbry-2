@@ -32,6 +32,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Main" type="ColorRect" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
