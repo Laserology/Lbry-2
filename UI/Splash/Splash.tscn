@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cs0osnec4lbaq"]
 
 [ext_resource type="Texture2D" uid="uid://duyx711071x2g" path="res://Assets/lowpoly.png" id="1_2j4aa"]
-[ext_resource type="Script" uid="uid://dwp5jbag5qkow" path="res://Scripts/Startup.gd" id="2_mtvxg"]
+[ext_resource type="Script" uid="uid://dwp5jbag5qkow" path="res://UI/Splash/Splash.gd" id="2_mtvxg"]
 [ext_resource type="Texture2D" uid="uid://bu6awr73yuqya" path="res://Assets/Logo_Color.png" id="3_akxpq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akxpq"]
