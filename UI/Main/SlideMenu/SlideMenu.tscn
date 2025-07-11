@@ -266,3 +266,4 @@ theme = ExtResource("2_6yqyj")
 text = "Open File"
 
 [connection signal="pressed" from="Halfs/MarginsInputs/Inputs/MarginContainer/Buttons/Save" to="." method="ProjectDetailsClose"]
+[connection signal="pressed" from="Halfs/MarginsInputs/Inputs/MarginContainer/Buttons/Delete" to="." method="DeletePressed"]
