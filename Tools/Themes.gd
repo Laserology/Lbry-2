@@ -13,16 +13,16 @@ func ThemeSelected(Index) -> void:
 
 	match Index:
 		0:
-			%Main.color = ColorNormal
+			Animate.FadeColor(%Main, ColorNormal)
 			%SlideMenu.color = ColorNormal
 			Replacement = preload("res://Assets/Common.tres")
 			ReplacementA = preload("res://Assets/ButtonAccept.tres")
 			ReplacementD = preload("res://Assets/ButtonReject.tres")
 		1:
-			%Main.color = ColorLight
+			Animate.FadeColor(%Main, ColorLight)
 			%SlideMenu.coThemeslor = ColorLight
 		2:
-			%Main.color = ColorTerracotta
+			Animate.FadeColor(%Main, ColorTerracotta)
 			%SlideMenu.color = ColorTerracotta
 			Replacement = preload("res://Assets/Common Terracotta.tres")
 			ReplacementA = preload("res://Assets/ButtonAccept Terracotta.tres")

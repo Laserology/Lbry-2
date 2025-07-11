@@ -30,3 +30,10 @@ static func AnimProgress(Obj: Object) -> Signal:
 	Anim.play()
 	Anim.connect("finished", Anim.kill)
 	return Anim.finished
+
+static func FadeColor(Obj: Object, Target: Color, Wait: float = 0.5) -> Signal:
+	var Anim = Constants.GlobalRoot.get_tree().create_tween()
+	Anim.tween_property(Obj, "color", Target, Wait).set_trans(Tween.TRANS_CUBIC)
+	Anim.play()
+	Anim.connect("finished", Anim.kill)
+	return Anim.finished
